@@ -1,0 +1,17 @@
+
+echo "# SysAttendance" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/YashDoifode1/SysAttendance.git
+git push -u origin main
+
+git remote add origin https://github.com/YashDoifode1/SysAttendance.git
+git branch -M main
+git push -u origin main
+
+ update repository
+ -git add .
+ -git commit -m " V-2.0"
+ -git push origin main

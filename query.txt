@@ -1,0 +1,20 @@
+INSERT INTO attendance (student_id, schedule_id, status, date)
+SELECT 
+    s.id AS student_id,
+    sch.id AS schedule_id,
+    CASE 
+        WHEN RAND() < 0.75 THEN 'Present' 
+        ELSE 'Absent' 
+    END AS status,
+    cal.date AS date
+FROM 
+    (SELECT '2025-01-01' + INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS date 
+     FROM (SELECT 0 a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+           UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+     CROSS JOIN (SELECT 0 a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+                 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+     CROSS JOIN (SELECT 0 a UNION ALL SELECT 1 UNION ALL SELECT 2) c
+    ) cal
+JOIN students s ON s.id BETWEEN 22 AND 31
+JOIN schedule sch ON sch.subject_id BETWEEN 33 AND 38 AND sch.faculty_id IN (4,5,6,9,10,11)
+WHERE cal.date BETWEEN '2025-01-01' AND '2025-01-30';

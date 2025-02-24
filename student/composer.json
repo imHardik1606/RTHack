@@ -1,0 +1,7 @@
+{
+    "require": {
+        "endroid/qr-code": "^4.8",
+        "khanamiryan/qrcode-detector-decoder": "*",
+        "google/cloud-vision": "^2.0"
+    }
+}
