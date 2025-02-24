@@ -53,100 +53,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password - Attendance System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-
-        .success, .error {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-
-        .success {
-            background: #28a745;
-            color: white;
-        }
-
-        .error {
-            background: #dc3545;
-            color: white;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Reset Password</h2>
+        
+        <?= $message; ?>
 
-<div class="container">
-    <h2>Reset Password</h2>
-
-    <?= $message; ?>
-
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="new_password">New Password:</label>
-            <input type="password" name="new_password" id="new_password" required>
-        </div>
-
-        <div class="form-group">
-            <label for="confirm_password">Confirm New Password:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required>
-        </div>
-
-        <button type="submit" class="btn">Reset Password</button>
-    </form>
-</div>
-
+        <form method="POST" action="" class="space-y-4">
+            <div class="text-left">
+                <label for="new_password" class="block text-gray-700 font-medium">New Password:</label>
+                <input type="password" name="new_password" id="new_password" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <div class="text-left">
+                <label for="confirm_password" class="block text-gray-700 font-medium">Confirm New Password:</label>
+                <input type="password" name="confirm_password" id="confirm_password" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">Reset Password</button>
+        </form>
+    </div>
 </body>
 </html>
+
