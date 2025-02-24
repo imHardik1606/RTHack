@@ -51,39 +51,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password - Attendance System</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-        .container { width: 90%; max-width: 500px; margin: 50px auto; background: white; padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); border-radius: 5px; text-align: center; }
-        h2 { margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
-        .btn { padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; }
-        .btn:hover { background: #0056b3; }
-        .success, .error { padding: 10px; margin-bottom: 15px; border-radius: 5px; }
-        .success { background: #28a745; color: white; }
-        .error { background: #dc3545; color: white; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-<div class="container">
-    <h2>Forgot Password</h2>
-
-    <?= $message; ?>
-
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="email">Enter Your Email:</label>
-            <input type="email" name="email" id="email" required>
-        </div>
-
-        <button type="submit" class="btn">Send Reset Link</button>
-    </form>
-
-    <br>
-    <a href="login.php" class="btn">Back to Login</a>
-</div>
-
+<body class="bg-gray-100 items-center justify-center min-h-screen p-4">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Forgot Password</h2>
+        <?php if(isset($message)) { echo "<p class='text-sm text-red-500'>$message</p>"; } ?>
+        <form method="POST" action="" class="space-y-4">
+            <div class="text-left">
+                <label for="email" class="font-medium text-gray-600">Enter Your Email:</label>
+                <input type="email" name="email" id="email" required class="w-full p-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition">Send Reset Link</button>
+        </form>
+        <a href="login.php" class="block mt-4 text-blue-500 hover:underline">Back to Login</a>
+    </div>
 </body>
 </html>
+

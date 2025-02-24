@@ -64,135 +64,70 @@ $years = $pdo->query("SELECT * FROM years")->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Attendance System</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .register-container {
-            background: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            width: 400px;
-            text-align: center;
-        }
-
-        .register-container h2 {
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: bold;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 90%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .register-btn {
-            width: 100%;
-            padding: 10px;
-            background: #0056b3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .register-btn:hover {
-            background: #003d80;
-        }
-
-        .error {
-            color: red;
-            margin-bottom: 15px;
-        }
-
-        .success {
-            color: green;
-            margin-bottom: 15px;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="flex items-center justify-center h-screen bg-gray-100">
 
-<div class="register-container">
-    <h2>Register</h2>
+<div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-semibold text-center text-gray-700 mb-4">Register</h2>
 
     <?php if (!empty($error)) { ?>
-        <p class="error"><?= $error; ?></p>
+        <p class="text-red-500 text-sm mb-4"> <?= $error; ?> </p>
     <?php } ?>
-
+    
     <?php if (!empty($success)) { ?>
-        <p class="success"><?= $success; ?></p>
+        <p class="text-green-500 text-sm mb-4"> <?= $success; ?> </p>
     <?php } ?>
 
     <form method="POST" onsubmit="return validateForm()">
-        <div class="input-group">
-            <label for="name">Full Name</label>
-            <input type="text" name="name" id="name" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="name">Full Name</label>
+            <input type="text" name="name" id="name" class="w-full mt-1 p-2 border rounded-md" required>
         </div>
 
-        <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="email">Email</label>
+            <input type="email" name="email" id="email" class="w-full mt-1 p-2 border rounded-md" required>
         </div>
 
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="password">Password</label>
+            <input type="password" name="password" id="password" class="w-full mt-1 p-2 border rounded-md" required>
         </div>
 
-        <div class="input-group">
-            <label for="course">Course</label>
-            <select name="course" id="course" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="course">Course</label>
+            <select name="course" id="course" class="w-full mt-1 p-2 border rounded-md" required>
                 <option value="">Select Course</option>
                 <?php foreach ($courses as $course) { ?>
-                    <option value="<?= $course['id']; ?>"><?= $course['course_name']; ?></option>
+                    <option value="<?= $course['id']; ?>"> <?= $course['course_name']; ?> </option>
                 <?php } ?>
             </select>
         </div>
 
-        <div class="input-group">
-            <label for="session">Session</label>
-            <select name="session" id="session" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="session">Session</label>
+            <select name="session" id="session" class="w-full mt-1 p-2 border rounded-md" required>
                 <option value="">Select Session</option>
                 <?php foreach ($sessions as $session) { ?>
-                    <option value="<?= $session['id']; ?>"><?= $session['session_name']; ?></option>
+                    <option value="<?= $session['id']; ?>"> <?= $session['session_name']; ?> </option>
                 <?php } ?>
             </select>
         </div>
 
-        <div class="input-group">
-            <label for="year">Year</label>
-            <select name="year" id="year" required>
+        <div class="mb-4">
+            <label class="block text-gray-600 font-medium" for="year">Year</label>
+            <select name="year" id="year" class="w-full mt-1 p-2 border rounded-md" required>
                 <option value="">Select Year</option>
                 <?php foreach ($years as $year) { ?>
-                    <option value="<?= $year['id']; ?>"><?= $year['year']; ?></option>
+                    <option value="<?= $year['id']; ?>"> <?= $year['year']; ?> </option>
                 <?php } ?>
             </select>
-        </div><br>
-        <div class="g-recaptcha" data-sitekey="6LcKQd8qAAAAAMKu2MIUQD22IxoIVVwZ1npIMnxQ"></div><br>
-
-        <button type="submit" class="register-btn">Register</button>
+        </div>
+        
+        <div class="g-recaptcha mb-4" data-sitekey="6LcKQd8qAAAAAMKu2MIUQD22IxoIVVwZ1npIMnxQ"></div>
+        
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Register</button>
     </form>
 </div>
 
@@ -216,3 +151,4 @@ $years = $pdo->query("SELECT * FROM years")->fetchAll();
 
 </body>
 </html>
+
