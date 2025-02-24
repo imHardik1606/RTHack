@@ -109,60 +109,7 @@ $attendance_records = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        h2 {
-            text-align: center;
-        }
-        .filters {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        select {
-            padding: 8px;
-            margin: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background: #0056b3;
-            color: white;
-        }
-        .status-present {
-            color: green;
-            font-weight: bold;
-        }
-        .status-absent {
-            color: red;
-            font-weight: bold;
-        }
-        .status-late {
-            color: orange;
-            font-weight: bold;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function applyFilters() {
             let course = document.getElementById('courseFilter').value;
@@ -171,115 +118,112 @@ $attendance_records = $stmt->fetchAll();
         }
     </script>
 </head>
-<body>
-
-<div class="container">
-    <h2>Welcome, <?= htmlspecialchars($faculty['name']); ?> (Faculty)</h2>
-    <h2>Today's Schedule</h2>
-    <table border="1">
-        <!-- <tr>
-            <th>Subject</th>
-            <th>Course</th>
-            <th>Session</th>
-            <th>Year</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Action</th>
-        </tr> -->
-        <?php foreach ($schedule as $row) { ?>
-            <tr>
-                <td><?= htmlspecialchars($row['subject']); ?></td>
-                <td><?= htmlspecialchars($row['course']); ?></td>
-                <td><?= htmlspecialchars($row['session']); ?></td>
-                <td><?= htmlspecialchars($row['year']); ?></td>
-                <td><?= htmlspecialchars($row['start_time']); ?></td>
-                <td><?= htmlspecialchars($row['end_time']); ?></td>
-                <td><a href="mark_attendance.php?schedule_id=<?= $row['id']; ?>">Mark Attendance</a></td>
-            </tr>
-        <?php } ?>
-    </table>
-
-    <h2>Attendance Percentage</h2>
-    <table border="1">
-        <tr>
-            <th>Subject</th>
-            <th>Total Classes</th>
-            <th>Attended Classes</th>
-            <th>Attendance %</th>
-        </tr>
-        <?php foreach ($attendanceData as $data) { ?>
-            <tr>
-                <td><?= htmlspecialchars($data['subject']); ?></td>
-                <td><?= $data['total_classes']; ?></td>
-                <td><?= $data['attended_classes']; ?></td>
-                <td><?= round($data['percentage'], 2); ?>%</td>
-            </tr>
-        <?php } ?>
-    </table>
-    
-    <!-- Filter Options -->
-    <div class="filters">
-        <label for="courseFilter">Course:</label>
-        <select id="courseFilter" onchange="applyFilters()">
-            <option value="">All Courses</option>
-            <?php foreach ($courses as $course): ?>
-                <option value="<?= $course['id']; ?>" <?= $selectedCourse == $course['id'] ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($course['course_name']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <label for="subjectFilter">Subject:</label>
-        <select id="subjectFilter" onchange="applyFilters()">
-            <option value="">All Subjects</option>
-            <?php foreach ($subjects as $subject): ?>
-                <option value="<?= $subject['id']; ?>" <?= $selectedSubject == $subject['id'] ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($subject['subject_name']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-
-    <!-- Attendance Table -->
-    <table>
-        <tr>
-            <th>Student</th>
-            <th>Subject</th>
-            <th>Course</th>
-            <th>Year</th>
-            <th>Session</th>
-            <th>Date</th>
-            <th>Status</th>
-            <!-- <th>Total Classes</th>
-            <th>Attended Classes</th>
-            <th>Attendance %</th> -->
-        </tr>
+<body class="bg-gray-100 text-gray-900">
+    <div class="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
+        <h2 class="text-2xl font-semibold text-center mb-4">Welcome, <?= htmlspecialchars($faculty['name']); ?> (Faculty)</h2>
         
-        <?php foreach ($attendance_records as $row): 
-            $total_classes = (int)$row['total_classes'];
-            $attended_classes = (int)$row['attended_classes'];
-            $attendance_percentage = ($total_classes > 0) ? round(($attended_classes / $total_classes) * 100, 2) : 0;
-        ?>
-        <tr>
-            <td><?= htmlspecialchars($row['student_name']); ?></td>
-            <td><?= htmlspecialchars($row['subject_name']); ?></td>
-            <td><?= htmlspecialchars($row['course_name']); ?></td>
-            <td><?= htmlspecialchars($row['year_name']); ?></td>
-            <td><?= htmlspecialchars($row['session_name']); ?></td>
-            <td><?= htmlspecialchars($row['date']); ?></td>
-            <td class="status-<?= strtolower($row['status']); ?>"><?= htmlspecialchars($row['status']); ?></td>
-            <!-- <td><?= $total_classes; ?></td>
-            <td><?= $attended_classes; ?></td>
-            <td><?= $attendance_percentage; ?>%</td> -->
-        </tr>
-        <?php endforeach; ?>
-    </table>
+        <h2 class="text-xl font-semibold text-center mb-4">Today's Schedule</h2>
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="p-2">Subject</th>
+                    <th class="p-2">Course</th>
+                    <th class="p-2">Session</th>
+                    <th class="p-2">Year</th>
+                    <th class="p-2">Start Time</th>
+                    <th class="p-2">End Time</th>
+                    <th class="p-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($schedule as $row) { ?>
+                    <tr class="border border-gray-300">
+                        <td class="p-2"> <?= htmlspecialchars($row['subject']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['course']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['session']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['year']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['start_time']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['end_time']); ?> </td>
+                        <td class="p-2"> <a href="mark_attendance.php?schedule_id=<?= $row['id']; ?>" class="text-blue-600 hover:underline">Mark Attendance</a> </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
-    <?php if (empty($attendance_records)): ?>
-        <p style="text-align:center; color: red;">No attendance records found.</p>
-    <?php endif; ?>
+        <h2 class="text-xl font-semibold text-center my-4">Attendance Percentage</h2>
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead>
+                <tr class="bg-green-600 text-white">
+                    <th class="p-2">Subject</th>
+                    <th class="p-2">Total Classes</th>
+                    <th class="p-2">Attended Classes</th>
+                    <th class="p-2">Attendance %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($attendanceData as $data) { ?>
+                    <tr class="border border-gray-300">
+                        <td class="p-2"> <?= htmlspecialchars($data['subject']); ?> </td>
+                        <td class="p-2"> <?= $data['total_classes']; ?> </td>
+                        <td class="p-2"> <?= $data['attended_classes']; ?> </td>
+                        <td class="p-2"> <?= round($data['percentage'], 2); ?>% </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
-</div>
+        <div class="text-center my-4">
+            <label for="courseFilter" class="font-semibold">Course:</label>
+            <select id="courseFilter" class="p-2 border border-gray-300 rounded" onchange="applyFilters()">
+                <option value="">All Courses</option>
+                <?php foreach ($courses as $course): ?>
+                    <option value="<?= $course['id']; ?>" <?= $selectedCourse == $course['id'] ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($course['course_name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <label for="subjectFilter" class="font-semibold">Subject:</label>
+            <select id="subjectFilter" class="p-2 border border-gray-300 rounded" onchange="applyFilters()">
+                <option value="">All Subjects</option>
+                <?php foreach ($subjects as $subject): ?>
+                    <option value="<?= $subject['id']; ?>" <?= $selectedSubject == $subject['id'] ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($subject['subject_name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
+        <h2 class="text-xl font-semibold text-center my-4">Attendance Records</h2>
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead>
+                <tr class="bg-gray-700 text-white">
+                    <th class="p-2">Student</th>
+                    <th class="p-2">Subject</th>
+                    <th class="p-2">Course</th>
+                    <th class="p-2">Year</th>
+                    <th class="p-2">Session</th>
+                    <th class="p-2">Date</th>
+                    <th class="p-2">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($attendance_records as $row): ?>
+                    <tr class="border border-gray-300">
+                        <td class="p-2"> <?= htmlspecialchars($row['student_name']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['subject_name']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['course_name']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['year_name']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['session_name']); ?> </td>
+                        <td class="p-2"> <?= htmlspecialchars($row['date']); ?> </td>
+                        <td class="p-2 font-bold <?= $row['status'] == 'Present' ? 'text-green-600' : ($row['status'] == 'Absent' ? 'text-red-600' : 'text-orange-600'); ?>">
+                            <?= htmlspecialchars($row['status']); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
+

@@ -22,20 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = trim($_POST['gender']);
     $mobile = trim($_POST['mobile']);
     $email = trim($_POST['email']);
-    $address = trim($_POST['address']);
-    $district = trim($_POST['district']);
-    $city = trim($_POST['city']);
-    $state = trim($_POST['state']);
-    $pincode = trim($_POST['pincode']);
-    $country = trim($_POST['country']);
-    $father_name = trim($_POST['father_name']);
-    $mother_name = trim($_POST['mother_name']);
-    $parent_mobile = trim($_POST['parent_mobile']);
-    $parent_email = trim($_POST['parent_email']);
-    
-    $update_stmt = $pdo->prepare("UPDATE students SET name = ?, dob = ?, gender = ?, mobile = ?, email = ?, address = ?, district = ?, city = ?, state = ?, pincode = ?, country = ?, father_name = ?, mother_name = ?, parent_mobile = ?, parent_email = ? WHERE id = ?");
-    
-    if ($update_stmt->execute([$name, $dob, $gender, $mobile, $email, $address, $district, $city, $state, $pincode, $country, $father_name, $mother_name, $parent_mobile, $parent_email, $user_id])) {
+
+    $update_stmt = $pdo->prepare("UPDATE students SET name = ?, dob = ?, gender = ?, mobile = ?, email = ? WHERE id = ?");
+
+    if ($update_stmt->execute([$name, $dob, $gender, $mobile, $email, $user_id])) {
         $_SESSION['success_message'] = "Profile updated successfully!";
         header("Location: student_details.php");
         exit();
@@ -49,116 +39,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Student Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h3 {
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        .info, .address, .parents {
-            margin-bottom: 20px;
-        }
-        .profile-pic {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-pic img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 2px solid #007bff;
-        }
-        strong {
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .btn {
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background: #0056b3;
-        }
-        .success, .error {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-        .success {
-            background: #28a745;
-            color: white;
-        }
-        .error {
-            background: #dc3545;
-            color: white;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h3>Edit Profile</h3>
+<body class="bg-gray-100">
+    
+    <!-- Container -->
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
+
+        <h3 class="text-2xl font-semibold border-b-2 border-blue-500 pb-2 mb-4">Edit Profile</h3>
+
+        <!-- Success or Error Message -->
         <?php if (isset($_SESSION['success_message'])) { ?>
-            <div class="success"><?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?></div>
+            <div class="bg-green-100 text-green-700 p-3 mb-4 rounded-md">
+                <?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+            </div>
         <?php } ?>
         <?php if (isset($error_message)) { ?>
-            <div class="error"><?= $error_message; ?></div>
+            <div class="bg-red-100 text-red-700 p-3 mb-4 rounded-md">
+                <?= $error_message; ?>
+            </div>
         <?php } ?>
+
+        <!-- Profile Form -->
         <form method="POST" action="">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" name="name" id="name" value="<?= htmlspecialchars($user['name']); ?>" required>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-medium">Name:</label>
+                    <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required
+                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-medium">Date of Birth:</label>
+                    <input type="date" name="dob" value="<?= htmlspecialchars($user['dob']); ?>" required
+                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" name="dob" id="dob" value="<?= htmlspecialchars($user['dob']); ?>" required>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label class="block text-gray-700 font-medium">Gender:</label>
+                    <select name="gender" required
+                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="Male" <?= $user['gender'] == 'Male' ? 'selected' : ''; ?>>Male</option>
+                        <option value="Female" <?= $user['gender'] == 'Female' ? 'selected' : ''; ?>>Female</option>
+                        <option value="Other" <?= $user['gender'] == 'Other' ? 'selected' : ''; ?>>Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-medium">Mobile:</label>
+                    <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']); ?>" required
+                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input type="text" name="gender" id="gender" value="<?= htmlspecialchars($user['gender']); ?>" required>
+
+            <div class="mt-4">
+                <label class="block text-gray-700 font-medium">Email:</label>
+                <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required
+                    class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
-            <div class="form-group">
-                <label for="mobile">Mobile:</label>
-                <input type="text" name="mobile" id="mobile" value="<?= htmlspecialchars($user['mobile']); ?>" required>
+
+            <div class="flex justify-between items-center mt-6">
+                <a href="profile.php" class="text-blue-600 hover:underline">Back to Profile</a>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">Update Profile</button>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" value="<?= htmlspecialchars($user['email']); ?>" required>
-            </div>
-            <button type="submit" class="btn">Update Profile</button>
         </form>
-        <br>
-        <a href="profile.php" class="btn">Back to Profile</a>
+
     </div>
+
 </body>
 </html>

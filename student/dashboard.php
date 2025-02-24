@@ -50,21 +50,22 @@ $overall_attendance_percentage = $total_lectures > 0 ? round(($total_attended / 
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container mt-4">
-        <h2>🎓 Student Dashboard</h2>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
+        <h2 class="text-2xl font-semibold text-gray-800">🎓 Student Dashboard</h2>
 
-        <div class="alert alert-info">
-            <strong>Overall Attendance Percentage:</strong> <?= $overall_attendance_percentage; ?>%
+        <div class="mt-4 p-4 bg-blue-100 border-l-4 border-blue-500 text-blue-700 rounded">
+            <strong>Overall Attendance Percentage:</strong> 
+            <span class="font-bold"><?= $overall_attendance_percentage; ?>%</span>
         </div>
 
         <!-- Filter Form -->
-        <form method="GET" class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label">Course:</label>
-                <select name="course_id" id="course_id" class="form-control" required>
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Course:</label>
+                <select name="course_id" id="course_id" class="w-full mt-1 p-2 border rounded">
                     <option value="">-- Select Course --</option>
                     <?php foreach ($courses as $course) { ?>
                         <option value="<?= $course['id']; ?>" <?= ($course_id == $course['id']) ? 'selected' : ''; ?>>
@@ -74,9 +75,9 @@ $overall_attendance_percentage = $total_lectures > 0 ? round(($total_attended / 
                 </select>
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label">Semester:</label>
-                <select name="year_id" id="year_id" class="form-control" required>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Semester:</label>
+                <select name="year_id" id="year_id" class="w-full mt-1 p-2 border rounded">
                     <option value="">-- Select Semester --</option>
                     <?php foreach ($years as $year) { ?>
                         <option value="<?= $year['id']; ?>" <?= ($year_id == $year['id']) ? 'selected' : ''; ?>>
@@ -86,73 +87,65 @@ $overall_attendance_percentage = $total_lectures > 0 ? round(($total_attended / 
                 </select>
             </div>
 
-            <div class="col-md-4 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">🔍 Filter</button>
+            <div class="flex items-end">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                    🔍 Filter Attendance
+                </button>
             </div>
         </form>
 
         <!-- Attendance Table -->
-        <h3 class="mt-4">📅 Attendance Records</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Total Lectures</th>
-                    <th>Total Attended</th>
-                    <th>Attendance Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (count($attendance_records) > 0) { ?>
-                    <?php foreach ($attendance_records as $record) { ?>
-                        <tr>
-                            <td><?= htmlspecialchars($record['subject_name']); ?></td>
-                            <td><?= $record['total_lectures']; ?></td>
-                            <td><?= $record['attended_lectures']; ?></td>
-                            <td>
-                                <?php
-                                $percentage = $record['total_lectures'] > 0
-                                    ? round(($record['attended_lectures'] / $record['total_lectures']) * 100, 2)
-                                    : 0;
-                                ?>
-                                <span class="badge <?= $percentage >= 75 ? 'bg-success' : 'bg-danger'; ?>">
+        <h3 class="mt-6 text-xl font-semibold">📅 Attendance Records</h3>
+        <div class="overflow-x-auto mt-4">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th class="px-4 py-2">Subject</th>
+                        <th class="px-4 py-2">Total Lectures</th>
+                        <th class="px-4 py-2">Total Attended</th>
+                        <th class="px-4 py-2">Attendance Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (count($attendance_records) > 0) { ?>
+                        <?php foreach ($attendance_records as $record) { 
+                            $percentage = $record['total_lectures'] > 0
+                                ? round(($record['attended_lectures'] / $record['total_lectures']) * 100, 2)
+                                : 0;
+                        ?>
+                        <tr class="border-b hover:bg-gray-100">
+                            <td class="px-4 py-2"><?= htmlspecialchars($record['subject_name']); ?></td>
+                            <td class="px-4 py-2"><?= $record['total_lectures']; ?></td>
+                            <td class="px-4 py-2"><?= $record['attended_lectures']; ?></td>
+                            <td class="px-4 py-2">
+                                <span class="px-3 py-1 rounded text-white <?= $percentage >= 75 ? 'bg-green-500' : 'bg-red-500'; ?>">
                                     <?= $percentage; ?>%
                                 </span>
                             </td>
                         </tr>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <tr>
+                            <td colspan="4" class="px-4 py-3 text-center text-gray-500">No attendance records found.</td>
+                        </tr>
                     <?php } ?>
-                <?php } else { ?>
-                    <tr>
-                        <td colspan="4" class="text-center">No attendance records found.</td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        // Dynamically fetch subjects when course and semester change
         document.getElementById('course_id').addEventListener('change', fetchSubjects);
         document.getElementById('year_id').addEventListener('change', fetchSubjects);
 
         function fetchSubjects() {
             let course_id = document.getElementById('course_id').value;
             let year_id = document.getElementById('year_id').value;
-            let subjectDropdown = document.getElementById('subject_id');
-
-            subjectDropdown.innerHTML = '<option value="">-- Select Subject --</option>';
 
             if (course_id && year_id) {
                 fetch(`fetch_subjects.php?course_id=${course_id}&year_id=${year_id}`)
                     .then(response => response.json())
-                    .then(data => {
-                        data.forEach(subject => {
-                            let option = document.createElement('option');
-                            option.value = subject.id;
-                            option.textContent = subject.subject_name;
-                            subjectDropdown.appendChild(option);
-                        });
-                    })
+                    .then(data => console.log("Subjects Loaded")) 
                     .catch(error => console.error('Error fetching subjects:', error));
             }
         }

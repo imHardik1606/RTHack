@@ -1,11 +1,11 @@
 <?php
 session_start();
-include('..\config/db.php');
-include('..\includes/header.php');
+include('../config/db.php');
+include('../includes/header.php');
 
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ..\auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -34,69 +34,37 @@ if (!$user) {
     $error_message = "";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Attendance System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 90%;
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            text-align: center;
-        }
-        .logout-btn, .dashboard-btn {
-            padding: 10px 20px;
-            display: inline-block;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        .logout-btn {
-            background: #d9534f;
-        }
-        .logout-btn:hover {
-            background: #c9302c;
-        }
-        .dashboard-btn:hover {
-            background: #0056b3;
-        }
-        .error-message {
-            color: red;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="container">
-    <h2>My Profile</h2>
-    <?php if ($error_message): ?>
-        <p class="error-message"><?php echo $error_message; ?></p>
-    <?php endif; ?>
-    <p><strong>Name:</strong> <?= htmlspecialchars($user['name']); ?></p>
-    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
-    <p><strong>Course:</strong> <?= htmlspecialchars($user['course_name']); ?></p>
-    <p><strong>Session:</strong> <?= htmlspecialchars($user['session_name']); ?></p>
-    <p><strong>Year:</strong> <?= htmlspecialchars($user['year_name']); ?></p>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
 
-    <a href="..\student/dashboard.php" class="dashboard-btn">Go to Dashboard</a>
-    <a href="..\auth/logout.php" class="logout-btn">Logout</a>
-</div>
+    <div class="bg-white shadow-lg rounded-lg p-6 w-96 text-center">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">My Profile</h2>
+
+        <!-- Error Message -->
+        <?php if ($error_message): ?>
+            <p class="bg-red-100 text-red-700 p-3 rounded-md mb-4"><?= $error_message; ?></p>
+        <?php endif; ?>
+
+        <!-- User Details -->
+        <p class="text-lg"><strong>Name:</strong> <?= htmlspecialchars($user['name']); ?></p>
+        <p class="text-lg"><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
+        <p class="text-lg"><strong>Course:</strong> <?= htmlspecialchars($user['course_name']); ?></p>
+        <p class="text-lg"><strong>Session:</strong> <?= htmlspecialchars($user['session_name']); ?></p>
+        <p class="text-lg"><strong>Year:</strong> <?= htmlspecialchars($user['year_name']); ?></p>
+
+        <!-- Buttons -->
+        <div class="mt-6 flex justify-between">
+            <a href="../student/dashboard.php" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">Dashboard</a>
+            <a href="../auth/logout.php" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">Logout</a>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -19,74 +19,39 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            /* margin: 20px; */
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h3 {
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        .info, .address, .parents {
-            margin-bottom: 20px;
-        }
-        .profile-pic {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-pic img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 2px solid #007bff;
-        }
-        strong {
-            color: #333;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body><br><br>
-    <div class="container">
-        <h3>Personal Information</h3><br>
-        <div class="info">
-            <p><strong>Name:</strong> <?= htmlspecialchars($user['name']); ?></p>
-            <p><strong>Date Of Birth:</strong> <?= htmlspecialchars($user['dob']); ?></p>
-            <p><strong>Gender:</strong> <?= htmlspecialchars($user['gender']); ?></p>
-            <p><strong>Mobile:</strong> <?= htmlspecialchars($user['mobile']); ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="max-w-2xl bg-white p-8 rounded-lg shadow-lg w-full">
+        <h2 class="text-2xl font-semibold text-blue-600 border-b pb-2 mb-4">Personal Information</h2>
+        <div class="mb-6">
+            <p><strong class="text-gray-700">Name:</strong> <?= htmlspecialchars($user['name']); ?></p>
+            <p><strong class="text-gray-700">Date Of Birth:</strong> <?= htmlspecialchars($user['dob']); ?></p>
+            <p><strong class="text-gray-700">Gender:</strong> <?= htmlspecialchars($user['gender']); ?></p>
+            <p><strong class="text-gray-700">Mobile:</strong> <?= htmlspecialchars($user['mobile']); ?></p>
+            <p><strong class="text-gray-700">Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
         </div>
-        <div class="profile-pic">
-            <img src="../uploads/<?= htmlspecialchars($user['profile_pic']); ?>" alt="<?= htmlspecialchars($user['name']); ?>">
-            <h4><?= strtoupper(htmlspecialchars($user['name'])); ?></h4>
+        <div class="flex flex-col items-center mb-6">
+            <img class="w-24 h-24 rounded-full border-4 border-blue-500" src="../uploads/<?= htmlspecialchars($user['profile_pic']); ?>" alt="<?= htmlspecialchars($user['name']); ?>">
+            <h4 class="text-lg font-bold mt-2 uppercase text-gray-800"><?= strtoupper(htmlspecialchars($user['name'])); ?></h4>
         </div>
-
-        <h3>Address Information</h3><br>
-        <div class="address">
-            <p><strong>Address:</strong> <?= htmlspecialchars($user['address']); ?></p>
-            <p><strong>District:</strong> <?= htmlspecialchars($user['district']); ?></p>
-            <p><strong>City/Taluk:</strong> <?= htmlspecialchars($user['city']); ?></p>
-            <p><strong>State:</strong> <?= htmlspecialchars($user['state']); ?></p>
-            <p><strong>Pin Code:</strong> <?= htmlspecialchars($user['pincode']); ?></p>
-            <p><strong>Country:</strong> <?= htmlspecialchars($user['country']); ?></p>
+        <h2 class="text-2xl font-semibold text-blue-600 border-b pb-2 mb-4">Address Information</h2>
+        <div class="mb-6">
+            <p><strong class="text-gray-700">Address:</strong> <?= htmlspecialchars($user['address']); ?></p>
+            <p><strong class="text-gray-700">District:</strong> <?= htmlspecialchars($user['district']); ?></p>
+            <p><strong class="text-gray-700">City/Taluk:</strong> <?= htmlspecialchars($user['city']); ?></p>
+            <p><strong class="text-gray-700">State:</strong> <?= htmlspecialchars($user['state']); ?></p>
+            <p><strong class="text-gray-700">Pin Code:</strong> <?= htmlspecialchars($user['pincode']); ?></p>
+            <p><strong class="text-gray-700">Country:</strong> <?= htmlspecialchars($user['country']); ?></p>
         </div>
-
-        <h3>Parents Information</h3><br>
-        <div class="parents">
-            <p><strong>Father's Name:</strong> <?= htmlspecialchars($user['father_name']); ?></p>
-            <p><strong>Mother's Name:</strong> <?= htmlspecialchars($user['mother_name']); ?></p>
-            <p><strong>Mobile:</strong> <?= htmlspecialchars($user['parent_mobile']); ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user['parent_email']); ?></p>
+        <h2 class="text-2xl font-semibold text-blue-600 border-b pb-2 mb-4">Parents Information</h2>
+        <div>
+            <p><strong class="text-gray-700">Father's Name:</strong> <?= htmlspecialchars($user['father_name']); ?></p>
+            <p><strong class="text-gray-700">Mother's Name:</strong> <?= htmlspecialchars($user['mother_name']); ?></p>
+            <p><strong class="text-gray-700">Mobile:</strong> <?= htmlspecialchars($user['parent_mobile']); ?></p>
+            <p><strong class="text-gray-700">Email:</strong> <?= htmlspecialchars($user['parent_email']); ?></p>
         </div>
     </div>
 </body>

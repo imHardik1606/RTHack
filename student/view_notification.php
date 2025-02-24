@@ -46,124 +46,50 @@ $comments_stmt = $pdo->prepare("SELECT nc.comment_text, nc.created_at, s.name FR
 $comments_stmt->execute([$notification_id]);
 $comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Notification</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            /* padding: 20px; */
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #007bff;
-            text-align: center;
-        }
-        .message {
-            margin-top: 10px;
-            padding: 15px;
-            border-left: 4px solid #007bff;
-            background: #f9f9f9;
-        }
-        .date {
-            font-size: 14px;
-            color: #555;
-            text-align: right;
-        }
-        .back-btn {
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            padding: 10px 15px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .back-btn:hover {
-            background: #0056b3;
-        }
-        .comment-section {
-            margin-top: 20px;
-        }
-        .comment-box {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .comment-list {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f1f1f1;
-            border-radius: 5px;
-        }
-        .comment {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        .comment:last-child {
-            border-bottom: none;
-        }
-        .comment strong {
-            color: #333;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body><br><br>
-    <div class="container">
-        <h2><?= htmlspecialchars($notification['title']); ?></h2>
-        <p class="date">Posted on: <?= htmlspecialchars($notification['created_at']); ?></p>
-        <div class="message">
-            <p><?= nl2br(htmlspecialchars($notification['message'])); ?></p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-6">
+    <div class="max-w-2xl w-full bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-blue-600 text-center">
+            <?= htmlspecialchars($notification['title']); ?>
+        </h2>
+        <p class="text-sm text-gray-500 text-right mt-2">
+            Posted on: <?= htmlspecialchars($notification['created_at']); ?>
+        </p>
+        <div class="mt-4 p-4 bg-blue-50 border-l-4 border-blue-600">
+            <p class="text-gray-700"> <?= nl2br(htmlspecialchars($notification['message'])); ?> </p>
         </div>
-
-        <!-- Comment Section
-        <div class="comment-section">
-            <h3>Comments</h3>
-            <form method="POST">
-                <textarea name="comment" class="comment-box" placeholder="Write a comment..." required></textarea>
-                <button type="submit" class="back-btn">Post Comment</button>
+        
+        <a href="notify.php" class="block mt-6 text-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
+            Back to Notifications
+        </a>
+        
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold">Comments</h3>
+            <form method="POST" class="mt-4">
+                <textarea name="comment" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Write a comment..." required></textarea>
+                <button type="submit" class="mt-3 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
+                    Post Comment
+                </button>
             </form>
-            <div class="comment-list">
+            
+            <div class="mt-4 bg-gray-50 p-4 rounded-md">
                 <?php foreach ($comments as $comment) { ?>
-                    <div class="comment">
-                        <strong><?= htmlspecialchars($comment['name']); ?></strong> (<?= htmlspecialchars($comment['created_at']); ?>)
-                        <p><?= nl2br(htmlspecialchars($comment['comment'])); ?></p>
-                    </div>
-                <?php } ?>
-            </div>
-        </div> -->
-
-        <a href="notify.php" class="back-btn">Back to Notifications</a>
-        <!-- Comment Section -->
-        <div class="comment-section">
-            <h3>Comments</h3>
-            <form method="POST">
-                <textarea name="comment" class="comment-box" placeholder="Write a comment..." required></textarea>
-                <button type="submit" class="back-btn">Post Comment</button>
-            </form>
-            <div class="comment-list">
-                <?php foreach ($comments as $comment) { ?>
-                    <div class="comment">
-                        <strong><?= htmlspecialchars($comment['name']); ?></strong> (<?= htmlspecialchars($comment['created_at']); ?>)
-                        <p><?= nl2br(htmlspecialchars($comment['comment_text'])); ?></p>
+                    <div class="p-3 border-b border-gray-200 last:border-b-0">
+                        <strong class="text-gray-800"> <?= htmlspecialchars($comment['name']); ?> </strong>
+                        <span class="text-xs text-gray-500"> (<?= htmlspecialchars($comment['created_at']); ?>) </span>
+                        <p class="text-gray-700 mt-2"> <?= nl2br(htmlspecialchars($comment['comment_text'])); ?> </p>
                     </div>
                 <?php } ?>
             </div>
         </div>
-
     </div>
 </body>
 </html>

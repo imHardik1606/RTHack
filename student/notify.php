@@ -24,66 +24,33 @@ $notif_stmt = $pdo->prepare("SELECT * FROM notifications WHERE session_id = ? AN
 $notif_stmt->execute([$session_id, $course_id, $year_id]);
 $notifications = $notif_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            /* margin: 20px; */
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h3 {
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        .notification-list {
-            list-style: none;
-            padding: 0;
-        }
-        .notification-list li {
-            background: #e9ecef;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .notification-list a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .notification-list a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body><br><br>
-    <div class="container">
-        <h3>Notifications</h3>
-        <ul class="notification-list">
+<body class="bg-gray-100 py-10">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold border-b-2 border-blue-500 pb-2 mb-4">Notifications</h3>
+        <ul class="space-y-4">
             <?php if (count($notifications) > 0) { ?>
                 <?php foreach ($notifications as $notification) { ?>
-                    <li>
-                        <a href="view_notification.php?id=<?= $notification['id']; ?>">
+                    <li class="bg-gray-200 p-4 rounded-lg">
+                        <a href="view_notification.php?id=<?= $notification['id']; ?>" class="text-blue-600 font-semibold hover:underline">
                             <?= htmlspecialchars($notification['title']); ?>
                         </a>
-                        <p><small><?= date("d M Y, H:i", strtotime($notification['created_at'])); ?></small></p>
+                        <p class="text-gray-600 text-sm mt-1"> <?= date("d M Y, H:i", strtotime($notification['created_at'])); ?></p>
                     </li>
                 <?php } ?>
             <?php } else { ?>
-                <p>No notifications available.</p>
+                <p class="text-gray-500">No notifications available.</p>
             <?php } ?>
         </ul>
     </div>
 </body>
 </html>
+

@@ -4,7 +4,7 @@ include '../config/db.php';
 include '../includes/header.php'; 
 
 if (!isset($_SESSION['faculty_id']) || $_SESSION['role'] !== 'faculty') {
-    die("Access Denied. Faculty only.");
+    die("<p class='text-red-500 text-center font-semibold'>Access Denied. Faculty only.</p>");
 }
 
 $faculty_id = $_SESSION['faculty_id'];
@@ -28,17 +28,18 @@ $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mark Attendance</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script> <!-- QR Library -->
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
 </head>
-<body>
-    <div class="container mt-4">
-        <h2>📌 Generate QR & Mark Attendance</h2>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">📌 Generate QR & Mark Attendance</h2>
 
         <!-- Step 1: Select Schedule & Date -->
-        <div class="mb-3">
-            <label class="form-label">Select Class:</label>
-            <select name="schedule_id" id="schedule" class="form-control" required>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-1">Select Class:</label>
+            <select name="schedule_id" id="schedule" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
                 <option value="">-- Select Class --</option>
                 <?php foreach ($schedules as $schedule) { ?>
                     <option value="<?= $schedule['id']; ?>">
@@ -50,18 +51,18 @@ $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Select Date:</label>
-            <input type="date" id="date" class="form-control" value="<?= date('Y-m-d'); ?>" required>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-1">Select Date:</label>
+            <input type="date" id="date" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" value="<?= date('Y-m-d'); ?>" required>
         </div>
 
         <!-- Step 2: Generate QR Code Button -->
-        <button id="generateQR" class="btn btn-primary mb-3">📸 Generate QR Code</button>
-        <div id="qrcode"></div><br>
+        <button id="generateQR" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200">📸 Generate QR Code</button>
+        <div id="qrcode" class="flex justify-center my-4"></div>
 
         <!-- Step 3: Fetch Students for Manual Attendance -->
-        <button id="fetchStudents" class="btn btn-success mb-3" disabled>📋 Fetch Students</button>
-        <div id="students-container"></div>
+        <button id="fetchStudents" class="w-full bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition duration-200" disabled>📋 Fetch Students</button>
+        <div id="students-container" class="mt-4"></div>
     </div>
 
     <script>
@@ -87,8 +88,8 @@ $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             new QRCode(qrContainer, {
                 text: qrData,
-                width: 256,
-                height: 256
+                width: 200,
+                height: 200
             });
 
             // Enable Fetch Students button
@@ -111,5 +112,6 @@ $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         });
     </script>
+
 </body>
 </html>
