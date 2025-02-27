@@ -25,9 +25,9 @@ Traditional attendance systems are inefficient, error-prone, and susceptible to 
 We built this system to address the common issue of **proxy attendance** in colleges and universities. By leveraging **geo-fencing technology**, we ensure that students must be physically present to mark attendance, thus improving fairness and accuracy.
 
 ## 🎉 Team
+- **Sakshi Yenkeshwar(Team Leader)**
 - **Kunjal Sugandh**
 - **Yash Doifode**
-- **Sakshi Yenkeshwar**
 - **Hardik Gayner(Frontend Development)**
 
 ## 🏆 Achievements
